@@ -1,4 +1,4 @@
-.PHONY: build run run-dist
+.PHONY: build run run-dist test lint
 
 build:
 	bash -c "./gradlew build"
@@ -9,3 +9,9 @@ run-dist:
 
 run:
 	bash -c "./gradlew run"
+
+test:
+	bash -c "./gradlew test"
+
+lint:
+	bash -c "./gradlew checkstyleMain checkstyleTest"
