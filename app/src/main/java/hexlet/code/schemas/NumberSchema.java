@@ -13,6 +13,12 @@ public class NumberSchema extends BaseSchema<Integer> {
     }
 
     @Override
+    public NumberSchema required() {
+        this.isRequired = true;
+        return this;
+    }
+
+    @Override
     public boolean isValid(Object o) {
         if (!isRequired && o == null) {
             return true;

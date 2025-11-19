@@ -42,6 +42,12 @@ public class StringSchema extends BaseSchema<String> {
         return required && length && containsRules;
     }
 
+    @Override
+    public StringSchema required() {
+        this.isRequired = true;
+        return this;
+    }
+
     private boolean checkRules(String s) {
         if (rules.isEmpty()) {
             return true;
