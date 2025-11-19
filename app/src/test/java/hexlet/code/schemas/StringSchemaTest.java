@@ -29,12 +29,12 @@ class StringSchemaTest {
         assertTrue(schema.isValid(""));
     }
 
-    @DisplayName(value = "Должен вернуть , когда вызывается required и передается пустая строка.")
+    @DisplayName(value = "Должен вернуть false, когда вызывается required и передается пустая строка.")
     @Test
     public void shouldReturnFalseWhenCalledRequiredAndIsValidWithEmptyString() {
         StringSchema schema = new StringSchema();
         schema.required();
-        assertTrue(schema.isValid(""));
+        assertFalse(schema.isValid(""));
     }
 
     @DisplayName(value = "Должен вернуть true/false, когда установлен минимальный размер строки.")
