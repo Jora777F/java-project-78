@@ -3,20 +3,16 @@ package hexlet.code.schemas;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringSchema {
+public class StringSchema extends BaseSchema<String> {
 
     private boolean isRequired;
     private int minLength;
     private final List<String> rules;
 
     public StringSchema() {
-        this.isRequired = false;
+        super();
         this.minLength = -1;
         this.rules = new ArrayList<>();
-    }
-
-    public void required() {
-        this.isRequired = true;
     }
 
     public StringSchema minLength(int length) {
@@ -29,18 +25,19 @@ public class StringSchema {
         return this;
     }
 
+    @Override
     public boolean isValid(Object object) {
         if (!this.isRequired && object == null) {
             return true;
         }
 
-        if (!(object instanceof String)) {
+        if (!(object instanceof String s)) {
             return false;
         }
 
-        boolean required = checkRequired((String) object);
-        boolean length = checkMinLength((String) object);
-        boolean containsRules = checkRules((String) object);
+        boolean required = checkRequired(s);
+        boolean length = checkMinLength(s);
+        boolean containsRules = checkRules(s);
 
         return required && length && containsRules;
     }
