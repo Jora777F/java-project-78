@@ -1,5 +1,6 @@
 package hexlet.code.schemas;
 
+import hexlet.code.Validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,5 +37,37 @@ class MapSchemaTest {
         map.put("key1", "value1");
         boolean isValid = schema.isValid(map);
         assertFalse(isValid);
+    }
+
+    @DisplayName(value = "Должен вернуть true, когда передаются валидные значения.")
+    @Test
+    public void shouldReturnTrueWhenShapeValid() {
+        Validator validator = new Validator();
+        MapSchema schema = validator.map();
+        Map<String, BaseSchema> schemas = new HashMap<>();
+        schemas.put("name", validator.string().required());
+        schemas.put("age", validator.number().positive());
+        schema.shape(schemas);
+
+        Map<String, Object> human = new HashMap<>();
+        human.put("name", "John");
+        human.put("age", Integer.MAX_VALUE);
+        assertTrue(schema.isValid(human));
+    }
+
+    @DisplayName(value = "Должен вернуть false, когда передаются невалидные значения.")
+    @Test
+    public void shouldReturnFalseWhenShapeInvalidValue() {
+        Validator validator = new Validator();
+        MapSchema schema = validator.map();
+        Map<String, BaseSchema> schemas = new HashMap<>();
+        schemas.put("name", validator.string().required());
+        schemas.put("age", validator.number().positive());
+        schema.shape(schemas);
+
+        Map<String, Object> human = new HashMap<>();
+        human.put("name", "");
+        human.put("age", -1);
+        assertFalse(schema.isValid(human));
     }
 }
