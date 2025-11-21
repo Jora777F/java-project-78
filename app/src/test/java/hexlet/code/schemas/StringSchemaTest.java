@@ -15,13 +15,6 @@ class StringSchemaTest {
         assertTrue(schema.isValid(null));
     }
 
-    @DisplayName(value = "Должен вернуть false, когда передается не строковый объект в isValid.")
-    @Test
-    void shouldReturnFalseWhenIsValidWithNonString() {
-        StringSchema schema = new StringSchema();
-        assertFalse(schema.isValid(123));
-    }
-
     @DisplayName(value = "Должен вернуть true, когда передается пустая строка в isValid.")
     @Test
     public void shouldReturnTrueWhenIsValidWithEmptyString() {

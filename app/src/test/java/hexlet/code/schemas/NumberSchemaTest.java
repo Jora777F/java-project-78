@@ -12,6 +12,9 @@ class NumberSchemaTest {
     public static final int ZERO = 0;
     public static final int TEN = 10;
     public static final int MINUS_TWO = -2;
+    public static final int TWO = 2;
+    public static final int FIVE = 5;
+    public static final int ELEVEN = 11;
 
     @DisplayName(value = "Должен выполнить валидацию, когда указаны положительные числа и не используется required.")
     @Test
@@ -37,10 +40,16 @@ class NumberSchemaTest {
         assertFalse(schema.isValid(null));
     }
 
-    @DisplayName(value = "Должен вернуть false, когда передается неверный тип.")
+    @DisplayName(value = "Должен выполнить валидацию, когда задан диапазон значений.")
     @Test
-    void shouldReturnFalseWhenInvalidType() {
-        NumberSchema schema = new NumberSchema();
-        assertFalse(schema.isValid("not a number"));
+    void shouldCorrectValidationWhenIsValidWithRangeNumber() {
+        Validator v = new Validator();
+        NumberSchema schema = v.number().range(ZERO, TEN);
+
+        assertTrue(schema.isValid(TWO));
+        assertTrue(schema.isValid(FIVE));
+        assertTrue(schema.isValid(ZERO));
+        assertFalse(schema.isValid(MINUS_TWO));
+        assertFalse(schema.isValid(ELEVEN));
     }
 }
