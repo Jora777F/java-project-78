@@ -18,7 +18,7 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
         return this;
     }
 
-    public MapSchema shape(Map<String, BaseSchema<?>> schemas) {
+    public MapSchema shape(Map<String, ? extends BaseSchema<?>> schemas) {
         addCheck("shape", value -> schemas.entrySet()
                 .stream()
                 .allMatch(element -> element.getValue()
