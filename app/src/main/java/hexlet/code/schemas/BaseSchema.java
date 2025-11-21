@@ -1,21 +1,23 @@
 package hexlet.code.schemas;
 
-public abstract class BaseSchema<T> {
-    protected boolean isRequired;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Predicate;
 
-    public BaseSchema() {
-        this.isRequired = false;
+public abstract class BaseSchema {
+
+    protected Map<String, Predicate<Object>> checks = new LinkedHashMap<>();
+
+    protected final void addCheck(String name, Predicate<Object> check) {
+        checks.put(name, check);
     }
 
-    public abstract boolean isValid(Object o);
-
-    /**
-     * Marks the schema as required.
-     *
-     * @return this schema instance
-     */
-    public BaseSchema<T> required() {
-        this.isRequired = true;
-        return this;
+    public final boolean isValid(Object value) {
+        for (Predicate<Object> validate : checks.values()) {
+            if (!validate.test(value)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -1,63 +1,23 @@
 package hexlet.code.schemas;
 
-public final class NumberSchema extends BaseSchema<Integer> {
-    private boolean isPositive;
-    private final Integer[] range;
-    private boolean isRangeEnabled;
+public final class NumberSchema extends BaseSchema {
 
     public NumberSchema() {
-        super();
-        this.isPositive = false;
-        this.range = new Integer[2];
-        this.isRangeEnabled = false;
+        addCheck("typeData", value -> value instanceof Integer || value == null);
     }
 
-    @Override
     public NumberSchema required() {
-        this.isRequired = true;
+        addCheck("required", value -> value instanceof Integer);
         return this;
-    }
-
-    @Override
-    public boolean isValid(Object o) {
-        if (!isRequired && o == null) {
-            return true;
-        }
-
-        if (!(o instanceof Integer)) {
-            return false;
-        }
-
-        int i = (Integer) o;
-        boolean required = checkRequired(i);
-        boolean isPositiveValue = checkPositive(i);
-        boolean checkRange = checkRange(i);
-        return required && isPositiveValue && checkRange;
-    }
-
-    private boolean checkRequired(Integer s) {
-        return !isRequired || s != null;
-    }
-
-    private boolean checkPositive(Integer o) {
-        return o > 0 || !isPositive;
-    }
-
-    private boolean checkRange(Integer o) {
-        if (!isRangeEnabled) {
-            return true;
-        }
-        return o >= range[0] && o <= range[1];
     }
 
     public NumberSchema positive() {
-        this.isPositive = true;
+        addCheck("positive", value -> value == null || ((int) value > 0));
         return this;
     }
 
-    public void range(int a, int b) {
-        this.isRangeEnabled = true;
-        this.range[0] = a;
-        this.range[1] = b;
+    public NumberSchema range(int min, int max) {
+        addCheck("range", value -> (int) value >= min && (int) value <= max);
+        return this;
     }
 }
