@@ -18,12 +18,11 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
         return this;
     }
 
-    public MapSchema shape(Map<String, BaseSchema> schemas) {
+    public MapSchema shape(Map<String, BaseSchema<?>> schemas) {
         addCheck("shape", value -> schemas.entrySet()
                 .stream()
                 .allMatch(element -> element.getValue()
-                        .isValid(((Map<?, ?>) value)
-                                .get(element.getKey()))));
+                        .isValid(value.get(element.getKey()))));
         return this;
     }
 }
