@@ -44,7 +44,7 @@ class MapSchemaTest {
     public void shouldReturnTrueWhenShapeValid() {
         Validator validator = new Validator();
         MapSchema schema = validator.map();
-        Map<String, BaseSchema<?>> schemas = new HashMap<>();
+        Map<String, BaseSchema> schemas = new HashMap<>();
         schemas.put("name", validator.string().required());
         schemas.put("age", validator.number().positive());
         schema.shape(schemas);
@@ -60,7 +60,7 @@ class MapSchemaTest {
     public void shouldReturnFalseWhenShapeInvalidValue() {
         Validator validator = new Validator();
         MapSchema schema = validator.map();
-        Map<String, BaseSchema<?>> schemas = new HashMap<>();
+        Map<String, BaseSchema> schemas = new HashMap<>();
         schemas.put("name", validator.string().required());
         schemas.put("age", validator.number().positive());
         schema.shape(schemas);

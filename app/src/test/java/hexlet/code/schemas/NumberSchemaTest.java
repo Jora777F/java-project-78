@@ -1,5 +1,6 @@
 package hexlet.code.schemas;
 
+import hexlet.code.Validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,19 +11,22 @@ class NumberSchemaTest {
 
     public static final int ZERO = 0;
     public static final int TEN = 10;
-    public static final int FIVE = 5;
-    public static final int ELEVEN = 11;
+    public static final int MINUS_TWO = -2;
 
-
-    @DisplayName(value = "Должен вернуть true, когда метод required не вызван.")
+    @DisplayName(value = "Должен выполнить валидацию, когда указаны положительные числа и не используется required.")
     @Test
-    void shouldReturnTrueWhenRequiredNotCall() {
-        NumberSchema schema = new NumberSchema();
-        schema.positive().range(ZERO, TEN);
-        assertTrue(schema.isValid(null));
+    void shouldCorrectValidationWhenIsValidWithPositiveNumberAndNotRequired() {
+        Validator v = new Validator();
+        NumberSchema schema = v.number();
 
-        assertFalse(schema.isValid(ELEVEN));
-        assertTrue(schema.isValid(FIVE));
+        assertTrue(schema.isValid(MINUS_TWO));
+
+        schema.positive();
+
+        assertFalse(schema.isValid(MINUS_TWO));
+        assertFalse(schema.isValid(ZERO));
+        assertTrue(schema.isValid(TEN));
+        assertTrue(schema.isValid(null));
     }
 
     @DisplayName(value = "Должен вернуть false, когда вызван метод required.")
