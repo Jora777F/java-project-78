@@ -12,12 +12,9 @@ public abstract class BaseSchema<T> {
         checks.put(name, check);
     }
 
-    public final boolean isValid(Object value) {
-        @SuppressWarnings("unchecked")
-        T typedValue = (T) value;
-
+    public final boolean isValid(T value) {
         for (Predicate<T> validate : checks.values()) {
-            if (!validate.test(typedValue)) {
+            if (!validate.test(value)) {
                 return false;
             }
         }

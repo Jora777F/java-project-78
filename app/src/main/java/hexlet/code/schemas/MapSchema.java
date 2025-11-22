@@ -14,15 +14,20 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
     }
 
     public MapSchema sizeof(int size) {
-        addCheck("sizeof", value -> value.size() == size);
+        addCheck("sizeof", value -> value != null && value.size() == size);
         return this;
     }
 
     public MapSchema shape(Map<String, ? extends BaseSchema<?>> schemas) {
-        addCheck("shape", value -> schemas.entrySet()
+        addCheck("shape", value -> value != null && schemas.entrySet()
                 .stream()
-                .allMatch(element -> element.getValue()
-                        .isValid(value.get(element.getKey()))));
+                .allMatch(element -> isSchemaValid(element.getValue(), value.get(element.getKey()))));
         return this;
+    }
+
+    private <T> boolean isSchemaValid(BaseSchema<T> schema, Object value) {
+        @SuppressWarnings("unchecked")
+        T typedValue = (T) value;
+        return schema.isValid(typedValue);
     }
 }
