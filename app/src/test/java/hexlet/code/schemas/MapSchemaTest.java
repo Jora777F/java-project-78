@@ -70,4 +70,40 @@ class MapSchemaTest {
         human.put("age", -1);
         assertFalse(schema.isValid(human));
     }
+
+    @DisplayName(value = "Должен вернуть true, когда в Map добавляется null значение без required.")
+    @Test
+    public void shouldReturnTrueWhenShapeWithNullValueWithoutRequired() {
+        Validator validator = new Validator();
+        MapSchema schema = validator.map();
+
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
+        schemas.put("name", validator.string());
+        schemas.put("age", validator.number().positive());
+
+        schema.shape(schemas);
+
+        Map<String, Object> human = new HashMap<>();
+        human.put("name", null);
+        human.put("age", 25);
+        assertTrue(schema.isValid(human));
+    }
+
+    @DisplayName(value = "Должен вернуть false, когда в Map добавляется null значение с required.")
+    @Test
+    public void shouldReturnFalseWhenShapeWithNullValueWithRequired() {
+        Validator validator = new Validator();
+        MapSchema schema = validator.map();
+
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
+        schemas.put("name", validator.string().required());
+        schemas.put("age", validator.number().positive());
+
+        schema.shape(schemas);
+
+        Map<String, Object> human = new HashMap<>();
+        human.put("name", null);
+        human.put("age", 25);
+        assertFalse(schema.isValid(human));
+    }
 }
